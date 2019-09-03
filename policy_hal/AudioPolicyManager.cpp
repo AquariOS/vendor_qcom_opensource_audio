@@ -2260,7 +2260,8 @@ status_t AudioPolicyManagerCustom::startInput(audio_io_handle_t input,
             // For remote submix (a virtual device), we open only one input per capture request.
             if (audio_is_remote_submix_device(inputDesc->mDevice)) {
                 String8 address = String8("");
-                if (policyMix == NULL) {
+                sp<AudioPolicyMix> policyMix = inputDesc->mPolicyMix.promote();
+                if (inputDesc->mPolicyMix == NULL) {
                     address = String8("0");
                 } else if (policyMix->mMixType == MIX_TYPE_PLAYERS) {
                     address = policyMix->mDeviceAddress;
